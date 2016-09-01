@@ -28,8 +28,8 @@ public class MemoEditActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button postButton = (Button) findViewById(R.id.post_button);
-        postButton.setOnClickListener(new View.OnClickListener() {
+        Button saveButton = (Button) findViewById(R.id.save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText memoEditText = (EditText) findViewById(R.id.memo_edit);

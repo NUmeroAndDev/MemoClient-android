@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         memoListRecycler.setHasFixedSize(true);
         memoListRecycler.setAdapter(adapter);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.refresh_layout_scheme));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

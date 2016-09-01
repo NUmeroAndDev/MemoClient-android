@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_layout"
-        android:padding="16dp"
-        android:background="#ffffff"
+        android:padding="@dimen/edit_margin"
+        android:background="@color/edit_background"
         android:gravity="top"
         android:scrollbars="vertical" />
 
@@ -22,8 +22,7 @@
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:padding="@dimen/bottom_layout_margin"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -33,10 +32,12 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/post_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="save" />
+            android:layout_height="@dimen/button_save_height"
+            android:text="@string/button_text_save"
+            android:textColor="@color/button_text_save"
+            android:background="@color/button_background_save"/>
 
     </LinearLayout>
 

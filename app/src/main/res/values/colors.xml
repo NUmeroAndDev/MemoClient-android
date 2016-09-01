@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_dark">#303F9F</color>
+    <color name="color_accent">#FF4081</color>
+
+    <color name="refresh_layout_scheme">#FF4081</color>
+
+    <color name="edit_background">#FFFFFF</color>
+    <color name="button_text_save">#FFFFFF</color>
+    <color name="button_background_save">#FF4081</color>
 </resources>
