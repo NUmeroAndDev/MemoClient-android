@@ -3,6 +3,8 @@ package com.numero.memoclient.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Memo> memoList;
     private MemoItemAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +60,20 @@ public class MainActivity extends AppCompatActivity {
         memoListRecycler.setLayoutManager(new LinearLayoutManager(this));
         memoListRecycler.setHasFixedSize(true);
         memoListRecycler.setAdapter(adapter);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeGetMemo();
+            }
+        });
 
         executeGetMemo();
     }
 
     private void executeGetMemo(){
+        memoList.clear();
         String URLString = "http://192.168.10.16:3001/memos.json";
         ApiGetManager.init(URLString).get(new ApiGetManager.Callback() {
             @Override
@@ -80,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPostExecute() {
                 adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
