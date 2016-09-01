@@ -54,6 +54,7 @@ public class MemoEditActivity extends AppCompatActivity{
         String memoURLString = getIntent().getStringExtra(Constant.MEMO_URL);
         if (memoURLString != null){
             isNewMemo = false;
+            saveButton.requestFocus();
             executeGetMemo(memoURLString);
         }
 
@@ -62,6 +63,7 @@ public class MemoEditActivity extends AppCompatActivity{
     private void executePostMemo(String memoText){
         String URLString = "http://192.168.10.16:3001/memos";
         ApiPostManager.init(URLString).setPostParam(memoText).post(new ApiPostManager.Callback() {
+//            ToDo: fix callback
             @Override
             public void onSuccess() {
                 savingProgressDialog.dismiss();

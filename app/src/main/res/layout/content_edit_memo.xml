@@ -37,7 +37,9 @@
             android:layout_height="@dimen/button_save_height"
             android:text="@string/button_text_save"
             android:textColor="@color/button_text_save"
-            android:background="@color/button_background_save"/>
+            android:background="@color/button_background_save"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
     </LinearLayout>
 
