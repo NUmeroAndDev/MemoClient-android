@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="button_text_save">Save</string>
+
+    <string name="message_saving">Saving</string>
 </resources>

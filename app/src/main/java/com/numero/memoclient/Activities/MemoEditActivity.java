@@ -15,8 +15,11 @@ import com.numero.memoclient.MemoApiClient.ApiUpdateManager;
 import com.numero.memoclient.MemoApiClient.Memo;
 import com.numero.memoclient.R;
 import com.numero.memoclient.Utils.Constant;
+import com.numero.memoclient.Views.SavingProgressDialog;
 
 public class MemoEditActivity extends AppCompatActivity{
+
+    private SavingProgressDialog savingProgressDialog;
 
     private boolean isNewMemo = true;
     private Memo memo;
@@ -37,6 +40,7 @@ public class MemoEditActivity extends AppCompatActivity{
                 if (memoText.equals("")){
                     return;
                 }
+                savingProgressDialog.show();
                 if (isNewMemo) {
                     executePostMemo(memoText);
                 } else {
@@ -44,6 +48,8 @@ public class MemoEditActivity extends AppCompatActivity{
                 }
             }
         });
+
+        savingProgressDialog = new SavingProgressDialog(this);
 
         String memoURLString = getIntent().getStringExtra(Constant.MEMO_URL);
         if (memoURLString != null){
@@ -58,6 +64,7 @@ public class MemoEditActivity extends AppCompatActivity{
         ApiPostManager.init(URLString).setPostParam(memoText).post(new ApiPostManager.Callback() {
             @Override
             public void onSuccess() {
+                savingProgressDialog.dismiss();
                 Toast.makeText(MemoEditActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -74,6 +81,7 @@ public class MemoEditActivity extends AppCompatActivity{
         ApiUpdateManager.init(URLString).setPostParam(memoText).post(new ApiUpdateManager.Callback() {
             @Override
             public void onSuccess() {
+                savingProgressDialog.dismiss();
                 Toast.makeText(MemoEditActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 finish();
             }

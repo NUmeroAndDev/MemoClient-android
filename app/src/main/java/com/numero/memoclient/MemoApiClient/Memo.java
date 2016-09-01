@@ -1,7 +1,5 @@
 package com.numero.memoclient.MemoApiClient;
 
-import android.util.Log;
-
 public class Memo {
     public long ID;
     public String title;
@@ -40,7 +38,6 @@ public class Memo {
 
     public Memo setURL(String url){
         this.URLString = url;
-        Log.d("URL", url);
         return this;
     }
 }

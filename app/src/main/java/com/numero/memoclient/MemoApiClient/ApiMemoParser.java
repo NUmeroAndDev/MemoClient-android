@@ -1,6 +1,5 @@
 package com.numero.memoclient.MemoApiClient;
 
-
 import android.os.Handler;
 import android.os.Message;
 
