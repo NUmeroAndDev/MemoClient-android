@@ -4,5 +4,5 @@
 
     <string name="button_text_save">Save</string>
 
-    <string name="message_saving">Saving</string>
+    <string name="message_loading">Loading</string>
 </resources>

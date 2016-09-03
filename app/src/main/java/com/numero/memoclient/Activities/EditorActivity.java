@@ -14,11 +14,11 @@ import com.numero.memoclient.MemoApiClient.ApiMemoParser;
 import com.numero.memoclient.MemoApiClient.Memo;
 import com.numero.memoclient.R;
 import com.numero.memoclient.Utils.Constant;
-import com.numero.memoclient.Views.SavingProgressDialog;
+import com.numero.memoclient.Views.LoadingProgressDialog;
 
 public class EditorActivity extends AppCompatActivity {
 
-    private SavingProgressDialog savingProgressDialog;
+    private LoadingProgressDialog loadingProgressDialog;
 
     private boolean isNewMemo = true;
     private Memo memo;
@@ -43,18 +43,18 @@ public class EditorActivity extends AppCompatActivity {
                 if (memoText.equals("")) {
                     return;
                 }
-                savingProgressDialog.show();
-
+                loadingProgressDialog.show();
                 executeSave(memoText);
             }
         });
 
-        savingProgressDialog = new SavingProgressDialog(this);
+        loadingProgressDialog = new LoadingProgressDialog(this);
 
         String memoURLString = getIntent().getStringExtra(Constant.MEMO_URL);
         if (memoURLString != null) {
             isNewMemo = false;
             findViewById(R.id.bottom_layout).requestFocus();
+            loadingProgressDialog.show();
             executeGetMemo(memoURLString);
         }
 
@@ -81,7 +81,7 @@ public class EditorActivity extends AppCompatActivity {
         clientManager.execute(new ApiClientManager.Callback() {
             @Override
             public void onSuccess(String result) {
-                savingProgressDialog.dismiss();
+                loadingProgressDialog.dismiss();
                 Toast.makeText(EditorActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
                 finish();
@@ -89,11 +89,16 @@ public class EditorActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int responseCode) {
+                loadingProgressDialog.dismiss();
                 if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
                     Toast.makeText(EditorActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else if (responseCode == ApiClientManager.RESPONSE_NOT_FIND){
+                    Toast.makeText(EditorActivity.this, "Memo not found", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(EditorActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
                 }
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -107,8 +112,11 @@ public class EditorActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int responseCode) {
+                loadingProgressDialog.dismiss();
                 if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
                     Toast.makeText(EditorActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else if (responseCode == ApiClientManager.RESPONSE_NOT_FIND) {
+                    Toast.makeText(EditorActivity.this, "Memo not found", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(EditorActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
                 }
@@ -122,6 +130,7 @@ public class EditorActivity extends AppCompatActivity {
         ApiMemoParser.init(data).execute(new ApiMemoParser.Callback() {
             @Override
             public void onPostExecute(Memo memo) {
+                loadingProgressDialog.dismiss();
                 EditorActivity.this.memo = memo;
                 EditText memoEditText = (EditText) findViewById(R.id.memo_edit);
                 memoEditText.setText(memo.value);

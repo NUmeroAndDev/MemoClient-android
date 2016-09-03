@@ -5,13 +5,13 @@ import android.content.Context;
 
 import com.numero.memoclient.R;
 
-public class SavingProgressDialog {
+public class LoadingProgressDialog {
 
     private ProgressDialog dialog;
 
-    public SavingProgressDialog(Context context){
+    public LoadingProgressDialog(Context context){
         dialog = new ProgressDialog(context);
-        dialog.setMessage(context.getString(R.string.message_saving));
+        dialog.setMessage(context.getString(R.string.message_loading));
         dialog.setCanceledOnTouchOutside(false);
     }
 
