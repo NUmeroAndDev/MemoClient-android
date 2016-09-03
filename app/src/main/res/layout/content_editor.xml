@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.numero.memoclient.Activities.MemoEditActivity"
-    tools:showIn="@layout/activity_edit_memo">
+    tools:context=".Activities.EditerActivity"
+    tools:showIn="@layout/activity_editer">
 
     <EditText
         android:id="@+id/memo_edit"
