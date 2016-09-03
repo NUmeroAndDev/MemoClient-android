@@ -24,7 +24,6 @@ public class ApiUpdateManager extends AsyncTask<Void, Void, Integer> {
     }
 
     public static ApiUpdateManager init(String URLString){
-//        URL example http://10.1.30.15:3000/memos/4
         return new ApiUpdateManager(URLString);
     }
 
