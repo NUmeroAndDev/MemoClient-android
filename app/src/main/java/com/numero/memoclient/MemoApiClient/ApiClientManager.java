@@ -11,11 +11,15 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ApiClientManager extends AsyncTask<Void, Void, String> {
-    private final static String RESULT_ERROR = "ERROR";
+
+    public final static int RESPONSE_OK = 200;
+    public final static int RESPONSE_NOT_FIND = 404;
+    public final static int RESPONSE_NOT_CONNECT = -1;
 
     private String URLString;
     private Callback callback;
     private Request request;
+    private int responseCode;
 
     public ApiClientManager(String URLString){
         this.URLString = URLString;
@@ -76,13 +80,13 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
         OkHttpClient client = new OkHttpClient();
         try {
             Response response = client.newCall(request).execute();
+
+            responseCode = response.code();
             result = response.body().string();
             response.close();
-//            ToDo: response処理
-
         } catch (IOException e) {
-            e.printStackTrace();
-            return ApiClientManager.RESULT_ERROR;
+            responseCode = RESPONSE_NOT_CONNECT;
+            return "";
         }
 
         return result;
@@ -90,17 +94,17 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (ApiClientManager.RESULT_ERROR.equals(result)){
-            callback.onFailure();
-            return;
+        if (responseCode == RESPONSE_OK){
+            callback.onSuccess(result);
+        } else {
+            callback.onFailure(responseCode);
         }
-        callback.onSuccess(result);
     }
 
 
     public interface Callback{
         void onSuccess(String result);
 
-        void onFailure();
+        void onFailure(int responseCode);
     }
 }

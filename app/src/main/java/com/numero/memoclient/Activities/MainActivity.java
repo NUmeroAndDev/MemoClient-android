@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.numero.memoclient.Adapter.MemoItemAdapter;
 import com.numero.memoclient.MemoApiClient.ApiClientManager;
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void executeGetMemo() {
-        memoList.clear();
         String URLString = "http://192.168.10.16:3001/memos.json";
         ApiClientManager.init(URLString).requestGet().execute(new ApiClientManager.Callback() {
             @Override
@@ -89,13 +89,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure() {
-
+            public void onFailure(int responseCode) {
+                swipeRefreshLayout.setRefreshing(false);
+                if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
+                    Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     private void executeParse(String data) {
+        memoList.clear();
         ApiMemoArrayParser.init(data).parse(memoList).execute(new ApiMemoArrayParser.Callback() {
             @Override
             public void onPostExecute() {

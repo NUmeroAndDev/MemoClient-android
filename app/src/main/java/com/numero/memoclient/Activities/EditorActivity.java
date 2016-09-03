@@ -70,7 +70,7 @@ public class EditorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void executeSave(String memoText){
+    private void executeSave(String memoText) {
         ApiClientManager clientManager;
         if (isNewMemo) {
             String URLString = "http://192.168.10.16:3001/memos";
@@ -88,8 +88,12 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure() {
-                Toast.makeText(EditorActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+            public void onFailure(int responseCode) {
+                if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
+                    Toast.makeText(EditorActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditorActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -102,7 +106,14 @@ public class EditorActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(int responseCode) {
+                if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
+                    Toast.makeText(EditorActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditorActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
+                }
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
