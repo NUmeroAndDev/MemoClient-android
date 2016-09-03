@@ -14,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.numero.memoclient.Adapter.MemoItemAdapter;
+import com.numero.memoclient.MemoApiClient.ApiClientManager;
 import com.numero.memoclient.MemoApiClient.ApiMemoArrayParser;
 import com.numero.memoclient.MemoApiClient.Memo;
-import com.numero.memoclient.MemoApiClient.ApiGetManager;
 import com.numero.memoclient.R;
 import com.numero.memoclient.Utils.Constant;
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void executeGetMemo(){
         memoList.clear();
         String URLString = "http://192.168.10.16:3001/memos.json";
-        ApiGetManager.init(URLString).get(new ApiGetManager.Callback() {
+        ApiClientManager.init(URLString).requestGet().execute(new ApiClientManager.Callback() {
             @Override
             public void onSuccess(String result) {
                 executeParse(result);
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
+
             }
         });
     }
