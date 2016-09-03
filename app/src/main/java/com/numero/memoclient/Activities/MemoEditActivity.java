@@ -59,7 +59,7 @@ public class MemoEditActivity extends AppCompatActivity {
         String memoURLString = getIntent().getStringExtra(Constant.MEMO_URL);
         if (memoURLString != null) {
             isNewMemo = false;
-            saveButton.requestFocus();
+            findViewById(R.id.bottom_layout).requestFocus();
             executeGetMemo(memoURLString);
         }
 
