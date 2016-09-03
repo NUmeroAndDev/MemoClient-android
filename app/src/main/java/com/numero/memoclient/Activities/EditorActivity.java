@@ -16,7 +16,7 @@ import com.numero.memoclient.R;
 import com.numero.memoclient.Utils.Constant;
 import com.numero.memoclient.Views.SavingProgressDialog;
 
-public class EditerActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity {
 
     private SavingProgressDialog savingProgressDialog;
 
@@ -26,7 +26,7 @@ public class EditerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editer);
+        setContentView(R.layout.activity_editor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -82,14 +82,14 @@ public class EditerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 savingProgressDialog.dismiss();
-                Toast.makeText(EditerActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditorActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
                 finish();
             }
 
             @Override
             public void onFailure() {
-                Toast.makeText(EditerActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditorActivity.this, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -111,7 +111,7 @@ public class EditerActivity extends AppCompatActivity {
         ApiMemoParser.init(data).execute(new ApiMemoParser.Callback() {
             @Override
             public void onPostExecute(Memo memo) {
-                EditerActivity.this.memo = memo;
+                EditorActivity.this.memo = memo;
                 EditText memoEditText = (EditText) findViewById(R.id.memo_edit);
                 memoEditText.setText(memo.value);
             }

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditerActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivityForResult(intent, Constant.EDIT_REQUEST_CODE);
             }
         });
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnClickListener(new MemoItemAdapter.OnClickListener() {
             @Override
             public void OnClick(int position) {
-                Intent intent = new Intent(MainActivity.this, EditerActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 intent.putExtra(Constant.MEMO_URL, memoList.get(position).URLString);
                 startActivityForResult(intent, Constant.EDIT_REQUEST_CODE);
             }
