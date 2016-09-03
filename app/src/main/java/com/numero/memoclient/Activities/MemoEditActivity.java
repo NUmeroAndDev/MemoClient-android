@@ -83,6 +83,7 @@ public class MemoEditActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 savingProgressDialog.dismiss();
                 Toast.makeText(MemoEditActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
                 finish();
             }
 

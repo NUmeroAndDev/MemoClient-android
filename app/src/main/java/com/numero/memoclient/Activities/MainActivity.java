@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MemoEditActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constant.EDIT_REQUEST_CODE);
             }
         });
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void OnClick(int position) {
                 Intent intent = new Intent(MainActivity.this, MemoEditActivity.class);
                 intent.putExtra(Constant.MEMO_URL, memoList.get(position).URLString);
-                startActivity(intent);
+                startActivityForResult(intent, Constant.EDIT_REQUEST_CODE);
             }
         });
 
@@ -72,7 +72,15 @@ public class MainActivity extends AppCompatActivity {
         executeGetMemo();
     }
 
-    private void executeGetMemo(){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            executeGetMemo();
+        }
+    }
+
+
+    private void executeGetMemo() {
         memoList.clear();
         String URLString = "http://192.168.10.16:3001/memos.json";
         ApiClientManager.init(URLString).requestGet().execute(new ApiClientManager.Callback() {
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void executeParse(String data){
+    private void executeParse(String data) {
         ApiMemoArrayParser.init(data).parse(memoList).execute(new ApiMemoArrayParser.Callback() {
             @Override
             public void onPostExecute() {
