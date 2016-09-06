@@ -129,15 +129,14 @@ public class MainActivity extends AppCompatActivity {
         ApiClientManager.init(URLString).requestDelete().execute(new ApiClientManager.Callback() {
             @Override
             public void onSuccess(String result) {
+                Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                executeGetMemo();
             }
 
             @Override
             public void onFailure(int responseCode) {
                 swipeRefreshLayout.setRefreshing(false);
-                if (responseCode == ApiClientManager.RESPONSE_DELETE) {
-                    Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
-                    executeGetMemo();
-                } else if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
+                if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
                     Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();

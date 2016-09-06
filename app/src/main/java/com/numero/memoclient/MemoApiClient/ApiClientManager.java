@@ -13,7 +13,7 @@ import okhttp3.Response;
 public class ApiClientManager extends AsyncTask<Void, Void, String> {
 
     public final static int RESPONSE_OK = 200;
-    public final static int RESPONSE_DELETE = 204;
+    public final static int RESPONSE_OK_DELETE = 204;
     public final static int RESPONSE_NOT_FIND = 404;
     public final static int RESPONSE_NOT_CONNECT = -1;
 
@@ -22,15 +22,15 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
     private Request request;
     private int responseCode;
 
-    public ApiClientManager(String URLString){
+    public ApiClientManager(String URLString) {
         this.URLString = URLString;
     }
 
-    public static ApiClientManager init(String URLString){
+    public static ApiClientManager init(String URLString) {
         return new ApiClientManager(URLString);
     }
 
-    public ApiClientManager requestGet(){
+    public ApiClientManager requestGet() {
         request = new Request.Builder()
                 .url(URLString)
                 .get()
@@ -38,7 +38,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public ApiClientManager requestPost(String param){
+    public ApiClientManager requestPost(String param) {
         RequestBody body = new FormBody.Builder()
                 .add("memo[value]", param)
                 .build();
@@ -50,7 +50,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public ApiClientManager requestPut(String param){
+    public ApiClientManager requestPut(String param) {
         RequestBody body = new FormBody.Builder()
                 .add("memo[value]", param)
                 .build();
@@ -62,7 +62,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public ApiClientManager requestDelete(){
+    public ApiClientManager requestDelete() {
         request = new Request.Builder()
                 .url(URLString)
                 .delete()
@@ -70,7 +70,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public void execute(Callback callback){
+    public void execute(Callback callback) {
         this.callback = callback;
         this.execute();
     }
@@ -95,7 +95,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (responseCode == RESPONSE_OK){
+        if (responseCode == RESPONSE_OK || responseCode == RESPONSE_OK_DELETE) {
             callback.onSuccess(result);
         } else {
             callback.onFailure(responseCode);
@@ -103,7 +103,7 @@ public class ApiClientManager extends AsyncTask<Void, Void, String> {
     }
 
 
-    public interface Callback{
+    public interface Callback {
         void onSuccess(String result);
 
         void onFailure(int responseCode);
