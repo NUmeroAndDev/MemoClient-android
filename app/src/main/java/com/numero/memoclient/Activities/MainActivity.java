@@ -3,8 +3,6 @@ package com.numero.memoclient.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Memo> memoList;
     private MemoItemAdapter adapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +71,6 @@ public class MainActivity extends AppCompatActivity {
         memoListRecycler.setLayoutManager(new LinearLayoutManager(this));
         memoListRecycler.setHasFixedSize(true);
         memoListRecycler.setAdapter(adapter);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.refresh_layout_scheme));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                executeGetMemo();
-            }
-        });
 
         executeGetMemo();
     }
@@ -103,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int responseCode) {
-                swipeRefreshLayout.setRefreshing(false);
                 if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
                     Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
                 } else {
@@ -119,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPostExecute() {
                 adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -135,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int responseCode) {
-                swipeRefreshLayout.setRefreshing(false);
                 if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
                     Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
                 } else {
@@ -153,11 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.menu_reload:
+                executeGetMemo();
+                break;
+            case R.id.menu_settings:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

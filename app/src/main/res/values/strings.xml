@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MemoClient</string>
-    <string name="action_settings">Settings</string>
+    <string name="menu_reload">Reload</string>
+    <string name="menu_settings">Settings</string>
 
     <string name="button_text_save">Save</string>
 
