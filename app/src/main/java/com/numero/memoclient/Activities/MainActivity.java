@@ -20,6 +20,7 @@ import com.numero.memoclient.MemoApiClient.ApiMemoArrayParser;
 import com.numero.memoclient.MemoApiClient.Memo;
 import com.numero.memoclient.R;
 import com.numero.memoclient.Utils.Constant;
+import com.numero.memoclient.Views.AskDeleteDialog;
 
 import java.util.ArrayList;
 
@@ -50,10 +51,22 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MemoItemAdapter(memoList);
         adapter.setOnClickListener(new MemoItemAdapter.OnClickListener() {
             @Override
-            public void OnClick(int position) {
+            public void onClick(int position) {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 intent.putExtra(Constant.MEMO_URL, memoList.get(position).URLString);
                 startActivityForResult(intent, Constant.EDIT_REQUEST_CODE);
+            }
+
+            @Override
+            public void onLongClick(final int position) {
+                AskDeleteDialog dialog = new AskDeleteDialog(MainActivity.this);
+                dialog.setOnClickListener(new AskDeleteDialog.OnClickListener() {
+                    @Override
+                    public void onClickPositiveButton() {
+                        executeDeleteMemo(position);
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -107,6 +120,28 @@ public class MainActivity extends AppCompatActivity {
             public void onPostExecute() {
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void executeDeleteMemo(int position) {
+        String URLString = memoList.get(position).URLString;
+        ApiClientManager.init(URLString).requestDelete().execute(new ApiClientManager.Callback() {
+            @Override
+            public void onSuccess(String result) {
+            }
+
+            @Override
+            public void onFailure(int responseCode) {
+                swipeRefreshLayout.setRefreshing(false);
+                if (responseCode == ApiClientManager.RESPONSE_DELETE) {
+                    Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                    executeGetMemo();
+                } else if (responseCode == ApiClientManager.RESPONSE_NOT_CONNECT) {
+                    Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Connect ERROR", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

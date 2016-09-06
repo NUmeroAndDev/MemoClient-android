@@ -5,4 +5,8 @@
     <string name="button_text_save">Save</string>
 
     <string name="message_loading">Loading</string>
+
+    <string name="message_ask_delete">Do you really delete?</string>
+    <string name="positive_button_delete">Delete</string>
+    <string name="negative_button_delete">Cancel</string>
 </resources>

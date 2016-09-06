@@ -11,6 +11,7 @@ public class LoadingProgressDialog {
 
     public LoadingProgressDialog(Context context){
         dialog = new ProgressDialog(context);
+//        ToDo: get text from res
         dialog.setMessage(context.getString(R.string.message_loading));
         dialog.setCanceledOnTouchOutside(false);
     }

@@ -13,6 +13,7 @@ import okhttp3.Response;
 public class ApiClientManager extends AsyncTask<Void, Void, String> {
 
     public final static int RESPONSE_OK = 200;
+    public final static int RESPONSE_DELETE = 204;
     public final static int RESPONSE_NOT_FIND = 404;
     public final static int RESPONSE_NOT_CONNECT = -1;
 

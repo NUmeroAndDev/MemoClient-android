@@ -39,7 +39,17 @@ public class MemoItemAdapter extends RecyclerView.Adapter<MemoItemHolder>{
                 if (onClickListener == null){
                     return;
                 }
-                onClickListener.OnClick(position);
+                onClickListener.onClick(position);
+            }
+        });
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (onClickListener == null){
+                    return false;
+                }
+                onClickListener.onLongClick(position);
+                return false;
             }
         });
     }
@@ -50,6 +60,8 @@ public class MemoItemAdapter extends RecyclerView.Adapter<MemoItemHolder>{
     }
 
     public interface OnClickListener{
-        void OnClick(int position);
+        void onClick(int position);
+
+        void onLongClick(int position);
     }
 }
